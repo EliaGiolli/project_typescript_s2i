@@ -59,7 +59,7 @@ class User implements IUser {
         this.name = name;
         this.id = id;
     }
-    
+    //the function bookVehicle allows a user to book an available vehicle
     bookVehicle(vehicle: IVehicle): void {
         if(!vehicle.status){
             vehicle.assignUser(this);
@@ -69,3 +69,46 @@ class User implements IUser {
         }
     }
 }    
+
+class City implements ICity{
+
+    cityName:string;
+    availableVehicle:IVehicle[];
+
+    constructor(cityName:string){
+        this.cityName = cityName;
+        this.availableVehicle = [];
+    }
+    //the function addVehicle adds a vehicle to a city
+    addVehicle(vechicle: IVehicle): void {
+        this.availableVehicle.push(vechicle);//it adds a vehicle into the array
+        console.log(`Vehicle ${vechicle.name} added to the city ${this.cityName}.`);
+    }
+}
+
+// Creation of some object for the class Vehicle
+let bike = new Vehicle("Bike", 1);
+let scooter = new Vehicle("Scooter", 2);
+let kickScooter = new Vehicle("Electric Kick scooter", 3);
+
+// Creation of some objects for the class User
+let user1 = new User("Piero Armenti", 1);
+let user2 = new User("Klaus Schroeder", 2);
+
+// Creation of the object City
+let NewYork = new City("New York");
+
+// added the above-created vehicles to the city of New York
+NewYork.addVehicle(bike);
+NewYork.addVehicle(scooter);
+NewYork.addVehicle(kickScooter);
+
+// Testing of the logic behind the vehicle's booking
+user1.bookVehicle(bike);
+user2.bookVehicle(bike); // it should fail since the vehicle is already booked
+user2.bookVehicle(kickScooter);
+
+// New Vehicle and booking
+let newBike = new Vehicle("New bike", 4);
+NewYork.addVehicle(newBike);
+user1.bookVehicle(newBike);
